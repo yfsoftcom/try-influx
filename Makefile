@@ -4,6 +4,9 @@ build:
 	ng build
 	docker build --tag yfsoftcom/try-influx .
 
+push:
+	docker push yfsoftcom/try-influx
+
 dev:
 	ng serve --open
 
