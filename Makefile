@@ -5,7 +5,7 @@ build:
 	docker build --tag yfsoftcom/try-influx .
 
 dev:
-    ng serve --open
+	ng serve --open
 
 run:
-    docker run -p "8080:80" -d yfsoftcom/try-influx
+	docker run -p "8080:80" -d yfsoftcom/try-influx
