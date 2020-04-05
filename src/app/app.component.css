@@ -90,3 +90,54 @@ dt>span{
   font-size: 0.75em;
   padding: 1em;
 }
+
+.pannel{
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.setting{
+  background: #aaa;
+  border-bottom: 5px solid #eee;
+}
+.setting h2 {
+  padding: 0;
+  margin: 0;
+  font-size: 2em;
+  margin-left: 1em;
+}
+.setting input.large{
+  width: 300px;
+}
+.setting input {
+  text-align: center;
+  margin: 2em;
+  display: inline-block;
+  padding-left: 0;
+  width: 200px;
+  font-size: 1.5em;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 3px solid #eee;
+  color: #262626;
+  font-family: monospace;
+  outline: none;
+}
+.btn-toggle{
+  border: 5px solid #eee;
+  background: #333;
+  line-height: 2em;
+  font-size: .8em;
+  color: #fff;
+  border-top: 0;
+  outline: none;
+}
+.btn-save{
+  border: 0;
+  background: #333;
+  font-weight: bold;
+  padding: 0.5em;
+  font-size: 1em;
+  color: #fff;
+  outline: none;
+}

@@ -1,9 +1,9 @@
 <div class="header">
   <h2>Try InfluxDB</h2>
 </div>
-<div class="output">
+<div #commandOutput class="output">
   <dl>
-    <div *ngFor="let one of history">
+    <div *ngFor="let one of outputs">
       <dt>
         $ <span (click)="run(one.command)">{{ one.command }}</span>
       </dt>
@@ -25,4 +25,16 @@
 </div>
 <div class="footer">
   <p>Powered by yfsoftcom</p>
+</div>
+
+
+<div class="pannel">
+  <div *ngIf="showSetting" class="setting">
+    <h2>Settings</h2>
+    <input class="large" #hosttInput [(ngModel)]="host" placeholder="localhost" />
+    <input #portInput [(ngModel)]="port" placeholder="port" />
+    <input #dbInput [(ngModel)]="db" placeholder="db" />
+    <button class="btn-save" (click)="saveSetting()">Save</button>
+  </div>
+  <button class="btn-toggle" (click)="showSetting = !showSetting">Config</button>
 </div>

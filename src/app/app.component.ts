@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -6,21 +6,47 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: `./app.component.html`,
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'try-influx';
+
+  CONFIG_KEY = 'ti#config';
 
   command = '';
 
+  host = 'localhost';
+
+  port = '8086';
+
+  db = 'db';
+
+  showSetting = false;
+
+  // all of the history command record
   history = [];
 
+  // all of the command & output
+  outputs = [];
+
+  // the command index, for flip the history
   index = -1;
 
   @ViewChild("commandInput") commandInputRef: ElementRef;
+
+  @ViewChild("commandOutput") commandOutputRef: ElementRef;
 
   constructor(
     private http: HttpClient
   ) {}
 
+  ngOnInit(){
+    let config = localStorage.getItem(this.CONFIG_KEY);
+    if(!!config){
+      config = JSON.parse(config);
+      this.host = config['host'];
+      this.port = config['port'];
+      this.db = config['db'];
+    }
+  }
   run(command) {
     if(!command || command == ''){
       return;
@@ -29,17 +55,37 @@ export class AppComponent {
       command,
       output: undefined,
     }
+
+    this.command = '';
+    this.history.push(command);
+    this.index = this.history.length;
+
+    if(command == 'clear'){
+      this.outputs.splice(0, this.outputs.length);
+      return;
+    }
     let formData: any = new FormData();
     formData.append("q", command)
-    this.http.post('http://www.ruichen.top:18086/query?db=fpmiot',
+    this.http.post(`http://${this.host}:${this.port}/query?db=${this.db}`,
       formData,
       { observe: 'response' })
       .subscribe(resp => {
-        // display its body
-        current.output = {
-          success: true,
-          data: JSON.stringify(resp.body, null, 2)
+        let firstData = resp.body['results'][0];
+        if(!!firstData.series){
+          const { columns, values } = firstData.series[0];
+          // display its body
+          current.output = {
+            success: true,
+            data: JSON.stringify({columns, values }, null, 2)
+          }
+
+        }else{
+          // no data;
+
         }
+        setTimeout(()=>{
+          this.commandOutputRef.nativeElement.scrollTop = this.commandOutputRef.nativeElement.scrollHeight;
+        }, 200)
         console.log(current);
       },
       (error) => {
@@ -47,10 +93,21 @@ export class AppComponent {
           success: false,
           error: error.error.error
         }
+        setTimeout(()=>{
+          this.commandOutputRef.nativeElement.scrollTop = this.commandOutputRef.nativeElement.scrollHeight;
+        }, 200)
       });
-    this.command = '';
-    this.history.push(current);
-    this.index = this.history.length;
+
+    this.outputs.push(current);
+
+  }
+
+  saveSetting() {
+    localStorage.setItem(this.CONFIG_KEY, JSON.stringify({
+      host: this.host,
+      port: this.port,
+      db: this.db,
+    }))
   }
 
   submitCommand() {
@@ -65,13 +122,13 @@ export class AppComponent {
       }
       // get prev command
       this.index--;
-      this.command = this.history[this.index].command;
+      this.command = this.history[this.index];
     }else{
       if(this.index >= this.history.length - 1){
         return; // the first one;
       }
       this.index++;
-      this.command = this.history[this.index].command;
+      this.command = this.history[this.index];
     }
     this.cursorToEnd(this.commandInputRef.nativeElement, this.command);
 
