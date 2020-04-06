@@ -141,3 +141,13 @@ dt>span{
   color: #fff;
   outline: none;
 }
+
+.footer a{
+  color: #fff;
+
+}
+.header h2>a{
+  font-size: .6em;
+  color: darkred;
+  font-style: italic;
+}

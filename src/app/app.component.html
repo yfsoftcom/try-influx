@@ -1,5 +1,5 @@
 <div class="header">
-  <h2>Try InfluxDB</h2>
+  <h2>Try InfluxQL <a target="_blank" href="https://docs.influxdata.com/influxdb/v1.7/query_language/">help</a></h2>
 </div>
 <div #commandOutput class="output">
   <dl>
@@ -21,10 +21,10 @@
 </div>
 <div class="input">
   <span class="prompt">&nbsp;&nbsp;&gt;</span>
-  <input #commandInput [(ngModel)]="command" (keyup.arrowup)="getHistory(-1)" (keyup.arrowdown)="getHistory(1)" (keyup.enter)="submitCommand()" placeholder="type command here"/>
+  <input #commandInput [(ngModel)]="command" (keyup.arrowup)="getHistory(-1)" (keyup.arrowdown)="getHistory(1)" (keyup.enter)="submitCommand()" placeholder="type influxQL here: select * from light limit 2"/>
 </div>
 <div class="footer">
-  <p>Powered by yfsoftcom</p>
+  <p>Powered by <a target="_blank" href="http://github.com/yfsoftcom/try-influx">@yfsoftcom</a></p>
 </div>
 
 
