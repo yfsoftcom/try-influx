@@ -8,6 +8,9 @@ import { AppComponent } from './app.component';
 import { EmptyPipe } from './app.pipe';
 import { FetchJsonPipe } from './fetch-json.pipe';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     EmptyPipe,
@@ -18,7 +21,9 @@ import { FetchJsonPipe } from './fetch-json.pipe';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

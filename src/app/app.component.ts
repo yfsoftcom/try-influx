@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { NotificationService } from './notification.service'
 @Component({
   selector: 'app-root',
   templateUrl: `./app.component.html`,
@@ -35,7 +35,8 @@ export class AppComponent implements OnInit {
   @ViewChild("commandOutput") commandOutputRef: ElementRef;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private notifyService : NotificationService
   ) {}
 
   ngOnInit(){
@@ -108,6 +109,7 @@ export class AppComponent implements OnInit {
       port: this.port,
       db: this.db,
     }))
+    this.notifyService.showSuccess("Config saved successfully !!", "Success")
   }
 
   submitCommand() {
